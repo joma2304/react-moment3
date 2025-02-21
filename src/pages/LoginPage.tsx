@@ -1,25 +1,39 @@
 import { useState } from "react"
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import "./LoginPage.css"
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    
+    const {login} = useAuth(); 
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError('');
+
+        try {
+            await login({email, password});
+            navigate("/admin");
+            
+        } catch (error) {
+            setError("Inloggningen misslyckades, kontrollera e-post och lösenord")
+        }
     };
 
     return (
-        <div>
-            <h2>Logga in</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="login-container">
+            <h2 className="login-title">Logga in</h2>
+            <form onSubmit={handleSubmit} className="login-form">
                 {error && (
-                    <div>
+                    <div className="error-message">
                         {error}
                     </div>
                 )}
-                <div>
+                <div className="form-group">
                     <label htmlFor="email">E-post</label>
                     <input
                         id="email"
@@ -27,20 +41,23 @@ const LoginPage = () => {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        className="input-field"
                     />
                 </div>
 
-                <div>
+                <div className="form-group">
                     <label htmlFor="password">Lösenord</label>
                     <input
                         type="password"
                         id="password"
                         required
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)} />
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="input-field"
+                         />
                 </div>
 
-                <button
+                <button className="submit-button"
                     type="submit">Logga in
                 </button>
             </form>
