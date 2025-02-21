@@ -8,7 +8,7 @@ const AdminPage = () => {
     return (
         <div>
             <h1 className="title">Admin</h1>
-            <p className="userInfo">Inloggad som: {user?.firstName + " " + user?.lastName}</p>
+            <p className="userInfo">Du är inloggad som: <strong>{user?.firstName + " " + user?.lastName}</strong></p>
         </div>
     )
 }
