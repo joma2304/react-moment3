@@ -64,7 +64,6 @@
 }
 
 .logOutBtn {
-    padding: 10px;
     font-size: 16px;
     border-radius: 5px;
     background: #d80909;
@@ -84,20 +83,22 @@
     display: flex; 
     align-items: center; 
     justify-content: center;
-    height: 40px; /* Se till att båda har samma höjd */
+    height: 45px; /* Se till att båda har samma höjd */
+    padding: 10px;
 }
 
 /* Mobilanpassning */
 @media (max-width: 768px) {
     .menu-button {
         display: block;
+        font-size: 2.2em;
     }
 
     .nav {
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 60px;
+        top: 100px;
         left: 0;
         width: 100%;
         background-color: #333;

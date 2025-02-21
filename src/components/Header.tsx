@@ -2,6 +2,9 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import "./Header.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,8 +18,8 @@ const Header = () => {
         </NavLink>
 
         <button onClick={() => setIsOpen(!isOpen)} className="menu-button">
-          {isOpen ? <span>&#10005;</span> : <span>&#9776;</span>}
-        </button>
+    <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
+</button>
         <nav className={`nav ${isOpen ? 'open' : ''}`}>
           <ul className="nav-list">
             <li><NavLink to="/" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Start</NavLink></li>
