@@ -4,6 +4,8 @@ import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { ProductProvider } from "./context/ProductContext";
+import ProductPage from "./pages/ProductPage";
 
 
 const router = createBrowserRouter([
@@ -12,19 +14,33 @@ const router = createBrowserRouter([
         element: <Layout />,
         children: [
             {
-                path:"/",
-                element: <HomePage />
-            },
-            {
-                path:"/admin",
+                path: "/",
                 element: (
-                    <ProtectedRoute>
-                    <AdminPage />
-                    </ProtectedRoute>
+                    <ProductProvider>
+                        <HomePage />
+                    </ProductProvider>
                 )
             },
             {
-                path:"/login",
+                path: "/products/:id", // Route för enskild
+                element: (
+                    <ProductProvider>
+                        <ProductPage />
+                    </ProductProvider>
+                )
+            },
+            {
+                path: "/admin",
+                element: (
+                    <ProductProvider>
+                        <ProtectedRoute>
+                            <AdminPage />
+                        </ProtectedRoute>
+                    </ProductProvider>
+                )
+            },
+            {
+                path: "/login",
                 element: <LoginPage />
             },
         ]
