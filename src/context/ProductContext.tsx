@@ -3,7 +3,7 @@ import { ProductInterface } from "../types/product.types";
 
 interface ProductContextType {
   products: ProductInterface[];
-  addProduct: (newProduct: Omit<ProductInterface, "_id">) => Promise<void>; // Lägg till addProduct i Context
+  addProduct: (newProduct: Omit<ProductInterface, "_id">) => Promise<void>; // Lägg till addProduct funktionen i Context, id sätts automatiskt av backend
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
@@ -62,7 +62,7 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook för att använda produktkontexten
+// Custom hook för att använda denna i homepage och adminpage
 export const useProducts = () => {
   const context = useContext(ProductContext);
   if (!context) {
