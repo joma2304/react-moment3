@@ -35,13 +35,25 @@ const AdminPage = () => {
 
             <form onSubmit={handleSubmit} className="product-form">
                 <h2>Lägg till ny produkt</h2>
-                <input type="text" name="name" placeholder="Produktnamn" value={newProduct.name} onChange={handleChange} required />
-                <input type="text" name="brand" placeholder="Märke" value={newProduct.brand} onChange={handleChange} required />
-                <textarea name="description" placeholder="Beskrivning" value={newProduct.description} onChange={handleChange} required />
-                <input type="number" name="price" placeholder="Pris" value={newProduct.price} onChange={handleChange} required />
-                <input type="number" name="amount" placeholder="Antal i lager" value={newProduct.amount} onChange={handleChange} required />
+
+                <label htmlFor="name">Produktnamn</label>
+                <input type="text" id="name" name="name" value={newProduct.name} onChange={handleChange} required />
+
+                <label htmlFor="brand">Märke</label>
+                <input type="text" id="brand" name="brand" value={newProduct.brand} onChange={handleChange} required />
+
+                <label htmlFor="description">Beskrivning</label>
+                <textarea id="description" name="description" value={newProduct.description} onChange={handleChange} required />
+
+                <label htmlFor="price">Pris</label>
+                <input type="number" id="price" name="price" value={newProduct.price} onChange={handleChange} required />
+
+                <label htmlFor="amount">Antal i lager</label>
+                <input type="number" id="amount" name="amount" value={newProduct.amount} onChange={handleChange} required />
+
                 <button type="submit">Lägg till produkt</button>
             </form>
+
         </div>
     );
 };

@@ -1,8 +1,9 @@
+import "./ProductPage.css"
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProductInterface } from "../types/product.types";
 
-const ProductDetail = () => {
+const ProductPage = () => {
   const { id } = useParams(); // 🔥 Hämta `id` från URL:en
   const [product, setProduct] = useState<ProductInterface | null>(null);
 
@@ -24,18 +25,18 @@ const ProductDetail = () => {
   }, [id]);
 
   if (!product) {
-    return <p>Hämtar produkt...</p>;
+    return <p className="loading">Hämtar produkt...</p>;
   }
 
   return (
-    <div>
-      <h1>{product.name}</h1>
-      <p>Beskrivning: {product.description}</p>
-      <p>Märke: {product.brand}</p>
-      <p>Pris: {product.price} kr</p>
-      <p>Antal i lager: {product.amount} st</p>
-    </div>
+<div className="product-detail">
+  <h1>{product.name}</h1>
+  <p><strong>Beskrivning:</strong> {product.description}</p>
+  <p><strong>Märke:</strong> {product.brand}</p>
+  <p><strong>Antal i lager:</strong> {product.amount} st</p>
+  <p className="price"><strong>Pris:</strong> {product.price} kr</p>
+</div>
   );
 };
 
-export default ProductDetail;
+export default ProductPage;
