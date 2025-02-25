@@ -8,3 +8,7 @@
 .title {
   text-align: center;
 }
+
+main {
+  min-height: 82vh;
+}

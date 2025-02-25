@@ -26,7 +26,7 @@ const AdminPage = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await addProduct(newProduct); // Använd addProduct från Context
-        setNewProduct({ name: "", price: null, description: "", brand: "", amount: null });
+        setNewProduct({ name: "", price: null, description: "", brand: "", amount: null }); //satte det till null för att inte ha 0 som förvalt värde
         navigate("/");
     };
 

@@ -68,5 +68,6 @@
   
   .product-link:hover {
     background: #0056b3;
+    cursor: pointer;
   }
   
