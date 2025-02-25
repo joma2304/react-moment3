@@ -48,11 +48,11 @@ const AdminPage = () => {
                 <label htmlFor="name">Produktnamn</label>
                 <input type="text" id="name" name="name" value={newProduct.name} onChange={handleChange} required />
 
-                <label htmlFor="brand">Märke</label>
-                <input type="text" id="brand" name="brand" value={newProduct.brand} onChange={handleChange} required />
-
                 <label htmlFor="description">Beskrivning</label>
                 <textarea id="description" name="description" value={newProduct.description} onChange={handleChange} required />
+
+                <label htmlFor="brand">Märke</label>
+                <input type="text" id="brand" name="brand" value={newProduct.brand} onChange={handleChange} required />
 
                 <label htmlFor="price">Pris</label>
                 <input type="number" id="price" name="price" value={newProduct.price ?? ""} onChange={handleChange} required />

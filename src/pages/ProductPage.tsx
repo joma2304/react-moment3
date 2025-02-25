@@ -74,10 +74,19 @@ const ProductPage = () => {
       {editing ? (
         <>
           <h1>Redigera Produkt</h1>
+          <label htmlFor="name">Produktnamn</label>
           <input type="text" name="name" value={updatedProduct?.name || ""} onChange={handleChange} />
+
+          <label htmlFor="description">Beskrivning</label>
           <textarea name="description" value={updatedProduct?.description || ""} onChange={handleChange} />
+
+          <label htmlFor="brand">Märke</label>
           <input type="text" name="brand" value={updatedProduct?.brand || ""} onChange={handleChange} />
+
+          <label htmlFor="price">Pris</label>
           <input type="number" name="price" value={updatedProduct?.price || "0"} onChange={handleChange} />
+
+          <label htmlFor="amount">Antal i lager</label>
           <input type="number" name="amount" value={updatedProduct?.amount || "0"} onChange={handleChange} />
           <button onClick={handleSave}>Spara</button>
           <button onClick={() => setEditing(false)}>Avbryt</button>
