@@ -94,3 +94,26 @@
 .product-detail .delete-btn:hover {
   background: #cc0000;
 }
+
+/*Tillbaks till start*/
+.backToStart {
+  margin-left: 10px;
+  display: inline-block;
+  text-decoration: none;
+  color: #007bff; /* Blå text */
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #007bff; /* Tunn ram */
+  transition: all 0.2s ease-in-out;
+}
+
+.backToStart:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.backToStart:active {
+  opacity: 0.8;
+}
