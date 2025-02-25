@@ -2,6 +2,8 @@ import { useState, useEffect } from "react"
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -65,7 +67,7 @@ const LoginPage = () => {
                 </div>
 
                 <button className="submit-button"
-                    type="submit">Logga in
+                    type="submit"> <FontAwesomeIcon icon={faUser} className="login-icon" /> Logga in
                 </button>
             </form>
         </div>
