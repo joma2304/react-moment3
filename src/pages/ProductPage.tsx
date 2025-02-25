@@ -77,8 +77,8 @@ const ProductPage = () => {
           <input type="text" name="name" value={updatedProduct?.name || ""} onChange={handleChange} />
           <textarea name="description" value={updatedProduct?.description || ""} onChange={handleChange} />
           <input type="text" name="brand" value={updatedProduct?.brand || ""} onChange={handleChange} />
-          <input type="text" name="price" value={updatedProduct?.price || "0"} onChange={handleChange} />
-          <input type="number" name="amount" value={updatedProduct?.amount || 0} onChange={handleChange} />
+          <input type="number" name="price" value={updatedProduct?.price || "0"} onChange={handleChange} />
+          <input type="number" name="amount" value={updatedProduct?.amount || "0"} onChange={handleChange} />
           <button onClick={handleSave}>Spara</button>
           <button onClick={() => setEditing(false)}>Avbryt</button>
         </>

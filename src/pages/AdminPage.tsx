@@ -9,7 +9,7 @@ const AdminPage = () => {
 
     const [newProduct, setNewProduct] = useState({
         name: "",
-        price: "",
+        price: 0,
         description: "",
         brand: "",
         amount: 0,
@@ -23,7 +23,7 @@ const AdminPage = () => {
         e.preventDefault();
         await addProduct(newProduct); // Använd addProduct från Context
         alert("Produkt tillagd!");
-        setNewProduct({ name: "", price: "", description: "", brand: "", amount: 0 });
+        setNewProduct({ name: "", price: 0, description: "", brand: "", amount: 0 });
     };
 
     return (
