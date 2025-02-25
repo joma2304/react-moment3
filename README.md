@@ -7,6 +7,6 @@
 
 ### Tekniker:
 - Frontend: React med TypeScript
-- Backend: Node.js med Hapi.js och MongoDb
-- Databas: Mongodb
+- Backend: Node.js med Hapi.js och MongoDB
+- Databas: MongoDB
 - JWT för autentisering 
