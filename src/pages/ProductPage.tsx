@@ -1,51 +1,71 @@
 import "./ProductPage.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { useProducts } from "../context/ProductContext";
-import { useState } from "react";
-import { ProductInterface } from "../types/product.types"; // Importera interfacet
+import { useAuth } from "../context/AuthContext";
+import { useState, useEffect } from "react";
+import { ProductInterface } from "../types/product.types";
+import Modal from "../components/Modal"; //modal för bekräftelse
 
 const ProductPage = () => {
-  const { id } = useParams(); //ID Från url
+  const { id } = useParams(); //ID från url
   const navigate = useNavigate();
-  const { products, editProduct, deleteProduct } = useProducts(); //Funktioner från context
+  const { products, editProduct, deleteProduct } = useProducts(); //Funktioner från ProductContext
+  const { user } = useAuth(); //användare från authcontext
 
-  if (!id) { //IFall produktens id inte finns
-    return <p className="loading">Fel: Produkt-ID saknas</p>;
-  }
-
-  const product = products.find((p) => p._id === id);
-
-  if (!product) { //Ifall produkten inte finns
-    return <p className="loading">Produkten hittades inte</p>;
-  }
-
-  // Kopia av produkten men ger standardvärden ifall det inte skulle finnas något värde för något fält av produkten
+  // Skapa en state för produkten
+  const [product, setProduct] = useState<ProductInterface | null>(null);
+  //State för redigering av produkt
   const [editing, setEditing] = useState(false);
-  const [updatedProduct, setUpdatedProduct] = useState<Omit<ProductInterface, "_id">>({
-    name: product.name ?? "", 
-    description: product.description ?? "", 
-    brand: product.brand ?? "", 
-    price: product.price ?? "0", 
-    amount: product.amount ?? 0, 
-  });
+  //State för att lagra redigerad produkt
+  const [updatedProduct, setUpdatedProduct] = useState<Omit<ProductInterface, "_id"> | null>(null);
+  const [modalMessage, setModalMessage] = useState(""); // meddelande i modalen
+  const [showModal, setShowModal] = useState(false);
 
-  //Updeteerar updatedproduct vid inmatning i inputfälten
+
+  useEffect(() => {
+    if (!id) return;
+    const foundProduct = products.find((p) => p._id === id); //Hitta produkt med rätt id
+    if (foundProduct) {
+      setProduct(foundProduct); //Uppdatera statet till den valda produkten
+      setUpdatedProduct({ //KOpia av produkten för redigering
+        name: foundProduct.name,
+        description: foundProduct.description,
+        brand: foundProduct.brand,
+        price: foundProduct.price,
+        amount: foundProduct.amount,
+      });
+    }
+  }, [id, products]); //Körs när id eller produkt ändras
+
+  // Om produkten inte finns, visa ett felmeddelande
+  if (!id) return <p className="loading">Fel: Produkt-ID saknas</p>;
+  if (!product) return <p className="loading">Produkten hittades inte</p>;
+
+  //Ändrar updatedproduct vid input i formulär
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (!updatedProduct) return;
     setUpdatedProduct({ ...updatedProduct, [e.target.name]: e.target.value });
   };
 
-  //Sparar uppgifterna och stänger redigeringsruta
+  //Sparar ändrad prodult
   const handleSave = async () => {
-    await editProduct(id, updatedProduct); //Anropar editProduct från productcontext
-    alert("Produkten uppdaterad!"); //TODO ÄNDRA DETTA
-    setEditing(false);
+    if (!updatedProduct) return;
+    await editProduct(id, updatedProduct); //Anropar editProduct
+    setModalMessage("Produkten har uppdaterats!");
+    setShowModal(true); // ✅ Visa modal istället för alert
+    setEditing(false); //Stäng modal
   };
 
-  //Raderar product
+  //Modal med meddelande för borttagning
   const handleDelete = async () => {
-    if (!window.confirm("Är du säker på att du vill ta bort produkten?")) return;
-    await deleteProduct(id); //Anripar deleteProuct från productcontext
-    alert("Produkten har tagits bort!"); //TODO ÄNDRA DETTA
+    setModalMessage("Är du säker på att du vill ta bort produkten?");
+    setShowModal(true);
+  };
+
+  // Ta boprt produckten
+  const confirmDelete = async () => {
+    await deleteProduct(id); //anropa deleteProduct
+    setShowModal(false);
     navigate("/");
   };
 
@@ -54,16 +74,11 @@ const ProductPage = () => {
       {editing ? (
         <>
           <h1>Redigera Produkt</h1>
-          <label htmlFor="name">Produktnamn</label>
-          <input type="text" name="name" value={updatedProduct.name} onChange={handleChange} />
-          <label htmlFor="description">Beskrivning</label>
-          <textarea name="description" value={updatedProduct.description} onChange={handleChange} />
-          <label htmlFor="brand">Märke</label>
-          <input type="text" name="brand" value={updatedProduct.brand} onChange={handleChange} />
-          <label htmlFor="price">Pris</label>
-          <input type="text" name="price" value={updatedProduct.price} onChange={handleChange} />
-          <label htmlFor="amount">Antal i lager</label>
-          <input type="number" name="amount" value={updatedProduct.amount} onChange={handleChange} />
+          <input type="text" name="name" value={updatedProduct?.name || ""} onChange={handleChange} />
+          <textarea name="description" value={updatedProduct?.description || ""} onChange={handleChange} />
+          <input type="text" name="brand" value={updatedProduct?.brand || ""} onChange={handleChange} />
+          <input type="text" name="price" value={updatedProduct?.price || "0"} onChange={handleChange} />
+          <input type="number" name="amount" value={updatedProduct?.amount || 0} onChange={handleChange} />
           <button onClick={handleSave}>Spara</button>
           <button onClick={() => setEditing(false)}>Avbryt</button>
         </>
@@ -74,9 +89,20 @@ const ProductPage = () => {
           <p><strong>Märke:</strong> {product.brand}</p>
           <p><strong>Antal i lager:</strong> {product.amount} st</p>
           <p className="price"><strong>Pris:</strong> {product.price} kr</p>
-          <button onClick={() => setEditing(true)}>Redigera</button>
-          <button onClick={handleDelete} className="delete-btn">Ta bort</button>
+          {user && (
+            <>
+              <button onClick={() => setEditing(true)}>Redigera</button>
+              <button onClick={handleDelete} className="delete-btn">Ta bort</button>
+            </>
+          )}
         </>
+      )}
+      {showModal && (
+        <Modal
+          message={modalMessage}
+          onClose={() => setShowModal(false)}
+          onConfirm={modalMessage.includes("ta bort") ? confirmDelete : undefined}
+        />
       )}
     </div>
   );

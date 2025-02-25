@@ -84,7 +84,6 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
 
       // Ta bort produkt
   const deleteProduct = async (id: string) => {
-    if (!window.confirm("Är du säker på att du vill ta bort produkten?")) return;
 
     try {
       const token = localStorage.getItem("jwtToken");

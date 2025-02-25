@@ -1,0 +1,83 @@
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+}
+
+.modal2 {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 80%;
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Se till att modalen aldrig är för liten eller för stor */
+@media (max-width: 400px) {
+    .modal2 {
+        width: 90%;
+    }
+}
+
+.modal2 p {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: black;
+}
+
+.modal2-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.modal2-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    flex: 1;
+    margin: 0 5px;
+}
+
+.modal2-buttons button:first-child {
+    background: #ff4d4d;
+    color: white;
+}
+
+.modal2-buttons button:first-child:hover {
+    background: #cc0000;
+}
+
+.modal2-buttons button:last-child {
+    background: #ccc;
+    color: black;
+}
+
+.modal2-buttons button:last-child:hover {
+    background: #999;
+}
+
+/* Animationer */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
