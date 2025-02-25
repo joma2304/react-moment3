@@ -20,7 +20,7 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
     const fetchProducts = async () => {
       try {
         setLoading(true); //Laddar är true
-        const response = await fetch("http://localhost:3000/products");
+        const response = await fetch("https://react-moment3-api.onrender.com/products");
         if (!response.ok) {
           throw new Error("Produkter kunde inte hämtas.");
         }
@@ -40,7 +40,7 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
   const addProduct = async (newProduct: Omit<ProductInterface, "_id">) => {
     try {
         const token = localStorage.getItem("jwtToken"); //Hämta token från localstorage
-      const response = await fetch("http://localhost:3000/products", {
+      const response = await fetch("https://react-moment3-api.onrender.com/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
     const editProduct = async (id: string, updatedProduct: Omit<ProductInterface, "_id">) => {
       try {
         const token = localStorage.getItem("jwtToken");
-        const response = await fetch(`http://localhost:3000/products/${id}`, {
+        const response = await fetch(`https://react-moment3-api.onrender.com/products/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       const token = localStorage.getItem("jwtToken");
-      const response = await fetch(`http://localhost:3000/products/${id}`, {
+      const response = await fetch(`https://react-moment3-api.onrender.com/products/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

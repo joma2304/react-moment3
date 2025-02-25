@@ -16,7 +16,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ( {children} ) => {
     const login = async (credentials: LoginCredentials) => {
 
         try {
-            const res = await fetch("http://localhost:3000/users/login", {
+            const res = await fetch("https://react-moment3-api.onrender.com/users/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -52,7 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ( {children} ) => {
         }
 
         try {
-            const res = await fetch("http://localhost:3000/users/validate", {  
+            const res = await fetch("https://react-moment3-api.onrender.com/users/validate", {  
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

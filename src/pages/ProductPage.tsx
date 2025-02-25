@@ -39,9 +39,10 @@ const ProductPage = () => {
     }
   }, [id, products]); //Körs när id eller produkt ändras
 
-  // Om produkten inte finns, visa ett felmeddelande
+  // Om produktens id inte finns finns inte produkten, visa ett felmeddelande
   if (!id) return <p className="loading">Fel: Produkt-ID saknas</p>;
-  if (!product) return <p className="loading">Produkten hittades inte</p>;
+  //Produkten laddas in
+  if (!product) return <p className="loading">Laddar produkt...</p>;
 
   //Ändrar updatedproduct vid input i formulär
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
