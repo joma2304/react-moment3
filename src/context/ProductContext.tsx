@@ -4,6 +4,8 @@ import { ProductInterface } from "../types/product.types";
 interface ProductContextType {
   products: ProductInterface[];
   addProduct: (newProduct: Omit<ProductInterface, "_id">) => Promise<void>; // Lägg till addProduct funktionen i Context, id sätts automatiskt av backend
+  editProduct: (id: string, updatedProduct: Omit<ProductInterface, "_id">) => Promise<void>;
+  deleteProduct: (id: string) => Promise<void>;
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
@@ -55,8 +57,56 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+    //Redigera produkt
+    const editProduct = async (id: string, updatedProduct: Omit<ProductInterface, "_id">) => {
+      try {
+        const token = localStorage.getItem("jwtToken");
+        const response = await fetch(`http://localhost:3000/products/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedProduct),
+        });
+  
+        if (!response.ok) {
+          throw new Error("Kunde inte uppdatera produkt");
+        }
+  
+        setProducts((prevProducts) =>
+          prevProducts.map((product) => (product._id === id ? { ...product, ...updatedProduct } : product))
+        );
+      } catch (error) {
+        console.error("Fel vid uppdatering:", error);
+      }
+    };
+
+      // Ta bort produkt
+  const deleteProduct = async (id: string) => {
+    if (!window.confirm("Är du säker på att du vill ta bort produkten?")) return;
+
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const response = await fetch(`http://localhost:3000/products/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Kunde inte ta bort produkt");
+      }
+
+      setProducts((prevProducts) => prevProducts.filter((product) => product._id !== id));
+    } catch (error) {
+      console.error("Fel vid borttagning:", error);
+    }
+  };
+
   return (
-    <ProductContext.Provider value={{ products, addProduct }}>
+    <ProductContext.Provider value={{ products, addProduct, editProduct, deleteProduct }}>
       {children}
     </ProductContext.Provider>
   );

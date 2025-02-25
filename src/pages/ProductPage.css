@@ -1,32 +1,96 @@
 .loading {
-    text-align: center;
+  text-align: center;
 }
 
+/* Huvudcontainer för produktdetaljer */
 .product-detail {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-  }
-  
-  .product-detail h1 {
-    font-size: 28px;
-    margin-bottom: 15px;
-  }
-  
-  .product-detail p {
-    font-size: 16px;
-    color: #333;
-    margin: 8px 0;
-  }
-  
-  .product-detail .price {
-    font-weight: bold;
-    color: #007bff;
-    font-size: 18px;
-    margin: 12px 0;
-  }
-  
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+/* Titel */
+.product-detail h1 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Paragrafer */
+.product-detail p {
+  font-size: 16px;
+  color: #333;
+  margin: 8px 0;
+}
+
+/* Pris-styling */
+.product-detail .price {
+  font-weight: bold;
+  color: #007bff;
+  font-size: 18px;
+  margin: 12px 0;
+}
+
+/* Formulär-styling */
+.product-detail input,
+.product-detail textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.product-detail textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Knappar */
+.product-detail button {
+  display: inline-block;
+  width: 48%;
+  padding: 10px;
+  margin: 10px 1%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+/* Redigera-knapp */
+.product-detail button:first-of-type {
+  background: #007bff;
+  color: white;
+}
+
+.product-detail button:first-of-type:hover {
+  background: #0056b3;
+}
+
+/* Avbryt-knapp */
+.product-detail button:last-of-type {
+  background: #ccc;
+  color: black;
+}
+
+.product-detail button:last-of-type:hover {
+  background: #999;
+}
+
+/* Ta bort-knapp */
+.product-detail .delete-btn {
+  background: #ff4d4d;
+  color: white;
+}
+
+.product-detail .delete-btn:hover {
+  background: #cc0000;
+}
