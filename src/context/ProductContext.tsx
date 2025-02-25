@@ -6,17 +6,20 @@ interface ProductContextType {
   addProduct: (newProduct: Omit<ProductInterface, "_id">) => Promise<void>; // Lägg till addProduct funktionen i Context, id sätts automatiskt av backend
   editProduct: (id: string, updatedProduct: Omit<ProductInterface, "_id">) => Promise<void>;
   deleteProduct: (id: string) => Promise<void>;
+  loading: boolean; //För laddning
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<ProductInterface[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Funktion för att hämta alla produkter
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true); //Laddar är true
         const response = await fetch("http://localhost:3000/products");
         if (!response.ok) {
           throw new Error("Produkter kunde inte hämtas.");
@@ -25,6 +28,8 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
         setProducts(data);
       } catch (error) {
         console.error("Fel vid hämtning av produkter:", error);
+      } finally {
+        setLoading(false); // Laddar är false
       }
     };
 
@@ -105,7 +110,7 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <ProductContext.Provider value={{ products, addProduct, editProduct, deleteProduct }}>
+    <ProductContext.Provider value={{ products, addProduct, editProduct, deleteProduct, loading }}>
       {children}
     </ProductContext.Provider>
   );

@@ -52,7 +52,7 @@ const ProductPage = () => {
     if (!updatedProduct) return;
     await editProduct(id, updatedProduct); //Anropar editProduct
     setModalMessage("Produkten har uppdaterats!");
-    setShowModal(true); // ✅ Visa modal istället för alert
+    setShowModal(true); // Visa modal
     setEditing(false); //Stäng modal
   };
 
