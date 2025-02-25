@@ -4,7 +4,7 @@ import { useProducts } from "../context/ProductContext";
 import "./AdminPage.css";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const AdminPage = () => {
     const { user } = useAuth();
@@ -60,7 +60,8 @@ const AdminPage = () => {
                 <label htmlFor="amount">Antal i lager</label>
                 <input type="number" id="amount" name="amount" value={newProduct.amount ?? ""} onChange={handleChange} required />
 
-                <button type="submit">Lägg till produkt</button>
+                <button type="submit"><FontAwesomeIcon icon={faPlus} className="add-icon" /> Lägg till produkt
+                </button>
             </form>
 
         </div>

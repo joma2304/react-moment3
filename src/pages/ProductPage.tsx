@@ -5,6 +5,8 @@ import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
 import { ProductInterface } from "../types/product.types";
 import Modal from "../components/Modal"; //modal för bekräftelse
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrash, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const ProductPage = () => {
   const { id } = useParams(); //ID från url
@@ -71,7 +73,9 @@ const ProductPage = () => {
 
   return (
     <>
-    <NavLink to={"/"} className="backToStart">Gå till alla produkter</NavLink>
+      <NavLink to={"/"} className="backToStart">
+      <FontAwesomeIcon icon={faArrowLeft} /> Gå till alla produkter
+      </NavLink>
       <div className="product-detail">
         {editing ? (
           <>
@@ -102,8 +106,10 @@ const ProductPage = () => {
             <p className="price"><strong>Pris:</strong> {product.price} kr</p>
             {user && (
               <>
-                <button onClick={() => setEditing(true)}>Redigera</button>
-                <button onClick={handleDelete} className="delete-btn">Ta bort</button>
+                <button onClick={() => setEditing(true)}><FontAwesomeIcon icon={faEdit} /> Redigera
+                </button>
+                <button onClick={handleDelete} className="delete-btn"><FontAwesomeIcon icon={faTrash} /> Ta bort
+                </button>
               </>
             )}
           </>

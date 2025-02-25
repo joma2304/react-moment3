@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useProducts } from "../context/ProductContext";
 import "./HomePage.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const HomePage = () => {
-    const { products, loading } = useProducts(); 
+    const { products, loading } = useProducts();
 
     return (
         <>
@@ -19,7 +21,7 @@ const HomePage = () => {
                                 <p>{product.description}</p>
                                 <p className="price">Pris: {product.price} kr</p>
                                 <Link to={`/products/${product._id}`} className="product-link">
-                                    Visa all info
+                                    <FontAwesomeIcon icon={faArrowRight} /> Visa all info
                                 </Link>
                             </li>
                         ))}
