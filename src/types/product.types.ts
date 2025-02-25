@@ -1,8 +1,8 @@
 export interface ProductInterface {
     _id: string,
     name: string,
-    price: number,
+    price: number | null,
     description: string,
     brand: string,
-    amount: number
+    amount: number | null
 }
