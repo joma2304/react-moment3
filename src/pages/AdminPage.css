@@ -83,3 +83,7 @@
     font-size: 22px;
     color: #007bff;
 }
+
+.error {
+    color: red;
+}

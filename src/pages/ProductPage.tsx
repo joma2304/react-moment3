@@ -14,22 +14,19 @@ const ProductPage = () => {
   const { products, editProduct, deleteProduct } = useProducts(); //Funktioner från ProductContext
   const { user } = useAuth(); //användare från authcontext
 
-  // Skapa en state för produkten
   const [product, setProduct] = useState<ProductInterface | null>(null);
-  //State för redigering av produkt
   const [editing, setEditing] = useState(false);
-  //State för att lagra redigerad produkt
   const [updatedProduct, setUpdatedProduct] = useState<Omit<ProductInterface, "_id"> | null>(null);
-  const [modalMessage, setModalMessage] = useState(""); // meddelande i modalen
+  const [modalMessage, setModalMessage] = useState(""); 
   const [showModal, setShowModal] = useState(false);
-
+  const [validationError, setValidationError] = useState(""); // För att lagra validerings felmeddelanden
 
   useEffect(() => {
     if (!id) return;
-    const foundProduct = products.find((p) => p._id === id); //Hitta produkt med rätt id
+    const foundProduct = products.find((p) => p._id === id);
     if (foundProduct) {
-      setProduct(foundProduct); //Uppdatera statet till den valda produkten
-      setUpdatedProduct({ //KOpia av produkten för redigering
+      setProduct(foundProduct);
+      setUpdatedProduct({
         name: foundProduct.name,
         description: foundProduct.description,
         brand: foundProduct.brand,
@@ -37,37 +34,56 @@ const ProductPage = () => {
         amount: foundProduct.amount,
       });
     }
-  }, [id, products]); //Körs när id eller produkt ändras
+  }, [id, products]);
 
-  // Om produktens id inte finns finns inte produkten, visa ett felmeddelande
   if (!id) return <p className="loading">Fel: Produkt-ID saknas</p>;
-  //Produkten laddas in
   if (!product) return <p className="loading">Laddar produkt...</p>;
 
-  //Ändrar updatedproduct vid input i formulär
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (!updatedProduct) return;
     setUpdatedProduct({ ...updatedProduct, [e.target.name]: e.target.value });
   };
 
-  //Sparar ändrad prodult
   const handleSave = async () => {
     if (!updatedProduct) return;
-    await editProduct(id, updatedProduct); //Anropar editProduct
+
+  // Standardvärden för att inte få null/undefined-fel
+  const price = updatedProduct.price ?? 0;
+  const amount = updatedProduct.amount ?? 0;
+
+    // Validering av för ändring av produkt
+    if (!updatedProduct.name.trim() || !updatedProduct.description.trim() || !updatedProduct.brand.trim()) {
+        setValidationError("Alla textfält måste fyllas i.");
+        setShowModal(true);
+        return;
+    }
+
+    if (price <= 0 || isNaN(price)) {
+        setValidationError("Pris kan inte vara mindre än 0.");
+        setShowModal(true);
+        return;
+    }
+
+    if (amount < 0 || isNaN(amount)) {
+        setValidationError("Antal måste vara 0 eller större.");
+        setShowModal(true);
+        return;
+    }
+
+    await editProduct(id, updatedProduct);
+    setValidationError(""); // Rensa eventuella felmeddelanden
     setModalMessage("Produkten har uppdaterats!");
-    setShowModal(true); // Visa modal
-    setEditing(false); //Stäng modal
+    setShowModal(true);
+    setEditing(false);
   };
 
-  //Modal med meddelande för borttagning
   const handleDelete = async () => {
     setModalMessage("Är du säker på att du vill ta bort produkten?");
     setShowModal(true);
   };
 
-  // Ta boprt produckten
   const confirmDelete = async () => {
-    await deleteProduct(id); //anropa deleteProduct
+    await deleteProduct(id);
     setShowModal(false);
     navigate("/");
   };
@@ -75,7 +91,7 @@ const ProductPage = () => {
   return (
     <>
       <NavLink to={"/"} className="backToStart">
-      <FontAwesomeIcon icon={faArrowLeft} /> Gå till alla produkter
+        <FontAwesomeIcon icon={faArrowLeft} /> Gå till alla produkter
       </NavLink>
       <div className="product-detail">
         {editing ? (
@@ -107,9 +123,11 @@ const ProductPage = () => {
             <p className="price"><strong>Pris:</strong> {product.price} kr</p>
             {user && (
               <>
-                <button onClick={() => setEditing(true)}><FontAwesomeIcon icon={faEdit} /> Redigera
+                <button onClick={() => setEditing(true)}>
+                  <FontAwesomeIcon icon={faEdit} /> Redigera
                 </button>
-                <button onClick={handleDelete} className="delete-btn"><FontAwesomeIcon icon={faTrash} /> Ta bort
+                <button onClick={handleDelete} className="delete-btn">
+                  <FontAwesomeIcon icon={faTrash} /> Ta bort
                 </button>
               </>
             )}
@@ -117,8 +135,11 @@ const ProductPage = () => {
         )}
         {showModal && (
           <Modal
-            message={modalMessage}
-            onClose={() => setShowModal(false)}
+            message={validationError || modalMessage}
+            onClose={() => {
+              setShowModal(false);
+              setValidationError(""); // Rensa felmeddelande vid stängning
+            }}
             onConfirm={modalMessage.includes("ta bort") ? confirmDelete : undefined}
           />
         )}
