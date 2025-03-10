@@ -31,7 +31,9 @@ const Header = () => {
         <nav className={`nav ${isOpen ? 'open' : ''}`}>
           <ul className="nav-list">
             <li><NavLink to="/" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Start</NavLink></li>
-            <li><NavLink to="/admin" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Admin</NavLink></li>
+            {user && (
+              <li><NavLink to="/admin" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Admin</NavLink></li>
+            )}
             <li>
               {
                 !user ? <NavLink to="/login" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Inloggning</NavLink> : <button onClick={() => setShowModal(true)} className="logOutBtn">Logga ut</button>
